@@ -1,18 +1,31 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.css';
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { isUserLoggedIn } from "./actions";
+import "./App.css";
+import PrivateRoute from "./components/HOC/PrivateRoute";
+import Home from "./components/pages/Home";
+import Login from "./components/pages/Login/Login";
+import Register from "./components/pages/Register/Register";
 
 function App() {
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!auth.authenticated) {
+      dispatch(isUserLoggedIn());
+    }
+  }, []);
   return (
     <div className="">
-      <BrowserRouter>
-      <Switch>
-      <Route exact path="/" component={Login}/>
-      <Route path="/Register" component={Register}/>
-      </Switch>
-      </BrowserRouter>
+      <Router>
+        <Switch>
+          <PrivateRoute path="/" exact component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/Register" component={Register} />
+        </Switch>
+      </Router>
     </div>
   );
 }
