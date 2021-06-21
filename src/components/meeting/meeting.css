@@ -1,0 +1,168 @@
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ :root{
+     --light-blue: #bad9ff;
+ }
+
+ @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+ 
+ .meeting-content-wrapper {
+     position: absolute;
+     width: 100%;
+     height: 100vh;
+     /* background-color: lightseagreen; */
+     background-color: #ffffff;
+     padding: 1.4rem;
+     overflow: hidden;
+ }
+ 
+ .screen-container {
+     width: 100%;
+     height: 80vh;
+     margin-bottom: 1vh;
+     position: relative;
+     background-color: lightslategray;
+ }
+ 
+ .meeting-container {
+     border-radius: 20px;
+     overflow: hidden;
+ }
+ 
+ .bottom-toolbox-container {
+     width: 100%;
+     height: 15vh;
+     /* background-color: lightgoldenrodyellow; */
+     background-color: var(--light-blue);
+ }
+ 
+ .meeting-content {
+     width: 100%;
+     transition: .3s;
+ } 
+
+/* Chat container */
+
+.chat-container{
+    position: absolute;
+    top: 0;
+    right: -420px; 
+    margin-top: 1.4rem;
+    height: 96vh;
+    transition: .3s;
+    width: 400px;
+    /* background-color: lightsalmon; */
+    background-color: var(--light-blue);
+}
+
+.meeting-content-wrapper.chat > .meeting-content{ 
+    width: calc(100% - 420px);
+ }
+
+ .meeting-content-wrapper.chat > .chat-container{
+     right: 20px;
+ }
+
+ .meeting-content-wrapper.chat .user-meeting-box.main{
+    width: calc(100% - 462px);
+    left: 1.4rem; 
+    transform: unset;
+ }
+
+ /* meeting user box ui */
+
+.user-meeting-box{
+    border: 2px solid white;
+    border-radius: 10px;
+    width: 150px;
+    transition: .3s;
+    overflow: hidden;
+    height: 150px;
+    position: relative; 
+    margin: 0 10px 30px auto;
+}
+
+.user-meeting-data{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 10px;
+}  
+
+.user-meeting-video-wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.user-meeting-video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+video.video-off{
+    display: none;
+}
+
+.user-meeting-data span{
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+.user-meeting-wrapper{
+    background-color: transparent;
+    height: 90%;  
+    width: 200px;
+    margin-top: 2.5%;
+    margin-left: auto;
+    overflow: auto;
+    position: relative;
+    z-index: 999;
+} 
+
+.user-meeting-box.main{
+    position: fixed;
+    width: calc(100% - 2.6rem);
+    height: 80vh;
+    top: 0; 
+    left: 50%;
+    transform: translate(-50%, 0); 
+    border-radius: 20px;
+    z-index: -1;
+    margin-top: 1.4rem;
+}
+
+/* width */
+.user-meeting-wrapper::-webkit-scrollbar {
+    width: 8px;
+    position: relative;
+    z-index: 9999999999;
+  }
+  
+/* Track */
+.user-meeting-wrapper::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+   
+/* Handle */
+.user-meeting-wrapper::-webkit-scrollbar-thumb {
+    background: #dddddd; 
+    border-radius: 10px;
+    position: relative;
+    z-index: 9999999999;
+}
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+    position: relative;
+    z-index: 9999999999;
+  }

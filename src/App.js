@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { isUserLoggedIn } from "./actions";
 import "./App.css";
 import PrivateRoute from "./components/HOC/PrivateRoute";
+import Meeting from "./components/meeting/meeting";
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";
@@ -24,6 +25,7 @@ function App() {
           <PrivateRoute path="/" exact component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/Register" component={Register} />
+          <Route path="/meeting" component={Meeting}/>
         </Switch>
       </Router>
     </div>
