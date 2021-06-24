@@ -3,6 +3,7 @@ import { authConstants, userConstants } from "../constants";
 const initialState = {
   token: null,
   user: {},
+  permissions: [],
   authenticated: false,
   authenticating: false,
   loading: false,
@@ -10,7 +11,7 @@ const initialState = {
   message: "",
 };
 
-export default (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case authConstants.LOGIN_REQUEST:
       state = {
@@ -24,6 +25,7 @@ export default (state = initialState, action) => {
       state = {
         ...state,
         user: user,
+        permissions: user.role.permissions,
         token: token,
         loading: false,
         authenticated: true,
@@ -57,3 +59,5 @@ export default (state = initialState, action) => {
   }
   return state;
 };
+
+export default authReducer;

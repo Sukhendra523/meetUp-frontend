@@ -9,8 +9,12 @@ import img6 from "./images/pencil.png";
 import img7 from "./images/left-and-right-arrows.png";
 import img8 from "./images/bin.png";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const UserList = () => {
+  const auth = useSelector((state) => state.auth);
+  const { users } = useSelector((state) => state.user);
+  console.log("users", users);
   const search = () => {};
   return (
     <>
@@ -22,7 +26,7 @@ const UserList = () => {
           placeholder: "Search User",
         }}
       />
-      <section>
+      <section className="pt-3">
         <div className="container">
           <div className="row heading-content px-3 mt-5">
             <div className="col-lg-6 d-flex align-items-center">
@@ -85,12 +89,13 @@ const UserList = () => {
                           <i className="fas fa-bars"></i>
                           <input
                             className="form-check-input"
+                            onChange={() => {}}
                             type="checkbox"
                             checked
                           />
                           <i className="fas fa-lock"></i>
                         </span>{" "}
-                        Name
+                        username
                       </a>
                     </li>
                     <li>
@@ -99,6 +104,7 @@ const UserList = () => {
                           <i className="fas fa-bars"></i>
                           <input
                             className="form-check-input"
+                            onChange={() => {}}
                             type="checkbox"
                             checked
                           />
@@ -113,20 +119,22 @@ const UserList = () => {
                           <i className="fas fa-bars"></i>
                           <input
                             className="form-check-input"
+                            onChange={() => {}}
                             type="checkbox"
                             checked
                           />
                           <i className="fas fa-lock"></i>
                         </span>{" "}
-                        Default Site
+                        Role
                       </a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a className="dropdown-item" href="/">
                         <span>
                           <i className="fas fa-bars"></i>
                           <input
                             className="form-check-input"
+                            onChange={() => {}}
                             type="checkbox"
                             checked
                           />
@@ -141,6 +149,7 @@ const UserList = () => {
                           <i className="fas fa-bars"></i>
                           <input
                             className="form-check-input"
+                            onChange={() => {}}
                             type="checkbox"
                             checked
                           />
@@ -155,6 +164,7 @@ const UserList = () => {
                           <i className="fas fa-bars"></i>
                           <input
                             className="form-check-input"
+                            onChange={() => {}}
                             type="checkbox"
                             checked
                           />
@@ -169,6 +179,7 @@ const UserList = () => {
                           <i className="fas fa-bars"></i>
                           <input
                             className="form-check-input"
+                            onChange={() => {}}
                             type="checkbox"
                             checked
                           />
@@ -183,6 +194,7 @@ const UserList = () => {
                           <i className="fas fa-bars"></i>
                           <input
                             className="form-check-input"
+                            onChange={() => {}}
                             type="checkbox"
                             checked
                           />
@@ -190,7 +202,7 @@ const UserList = () => {
                         </span>{" "}
                         Created By
                       </a>
-                    </li>
+                    </li>*/}
                   </ul>
                 </div>
               </div>
@@ -231,18 +243,23 @@ const UserList = () => {
                     <thead>
                       <tr>
                         <th scope="col">
-                          <input className="form-check-input" type="checkbox" />
+                          <input
+                            className="form-check-input"
+                            onChange={() => {}}
+                            type="checkbox"
+                          />
                         </th>
+
                         <th scope="col" className="dropdown-toggle">
-                          <span> Name</span>
+                          <span> username</span>
                         </th>
                         <th scope="col" className="dropdown-toggle">
                           <span>Email</span>
                         </th>
                         <th scope="col" className="dropdown-toggle">
-                          <span>Default Site</span>
+                          <span>Role</span>
                         </th>
-                        <th scope="col" className="dropdown-toggle">
+                        {/* <th scope="col" className="dropdown-toggle">
                           <span>User Type</span>
                         </th>
                         <th scope="col" className="dropdown-toggle">
@@ -250,14 +267,82 @@ const UserList = () => {
                         </th>
                         <th scope="col" className="dropdown-toggle">
                           <span>Date</span>
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {users &&
+                        users.map((user, i) => (
+                          <tr key={i}>
+                            <th scope="row">
+                              <input
+                                className="form-check-input"
+                                onChange={() => {}}
+                                type="checkbox"
+                              />
+                            </th>
+
+                            <td>
+                              <img
+                                src={user.image ? user.image : img4}
+                                width="25"
+                                alt=""
+                              />
+                              {user.username}
+                            </td>
+                            <td>{user.email}</td>
+                            <td>{user.role.name}</td>
+                            <td>
+                              <div className="dropdown dots">
+                                <div
+                                  className=""
+                                  type="button"
+                                  id="dropdownMenuButton1"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
+                                  <i className="fa fa-ellipsis-h ms-2 dropdown">
+                                    {" "}
+                                  </i>
+                                </div>
+                                <ul
+                                  className="dropdown-menu"
+                                  aria-labelledby="dropdownMenuButton1"
+                                >
+                                  <li>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={`/user/${user._id}`}
+                                    >
+                                      <img src={img6} alt="" /> Edit
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <a className="dropdown-item" href="/">
+                                      <img src={img8} alt="" />
+                                      Remove
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a href="/" className="dropdown-item">
+                                      <img src={img5} alt="" />
+                                      Duplicate
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      {/* <tr>
                         <th scope="row">
-                          <input className="form-check-input" type="checkbox" />
+                          <input
+                            className="form-check-input"
+                            onChange={() => {}}
+                            type="checkbox"
+                          />
                         </th>
+                        
                         <td>
                           <img src={img4} width="25" alt="" />
                           Joe Nelson
@@ -287,10 +372,11 @@ const UserList = () => {
                               aria-labelledby="dropdownMenuButton1"
                             >
                               <li>
-                                <Link to="/user/12326">
-                                  <a className="dropdown-item" href="/">
-                                    <img src={img6} alt="" /> Edit
-                                  </a>
+                                <Link
+                                  className="dropdown-item"
+                                  to="/user/12326"
+                                >
+                                  <img src={img6} alt="" /> Edit
                                 </Link>
                               </li>
                               <li>
@@ -311,7 +397,11 @@ const UserList = () => {
                       </tr>
                       <tr>
                         <th scope="row">
-                          <input className="form-check-input" type="checkbox" />
+                          <input
+                            className="form-check-input"
+                            onChange={() => {}}
+                            type="checkbox"
+                          />
                         </th>
                         <td>
                           <img src={img4} width="25" alt="" />
@@ -364,7 +454,11 @@ const UserList = () => {
                       </tr>
                       <tr>
                         <th scope="row">
-                          <input className="form-check-input" type="checkbox" />
+                          <input
+                            className="form-check-input"
+                            onChange={() => {}}
+                            type="checkbox"
+                          />
                         </th>
                         <td>
                           <img src={img4} width="25" alt="" />
@@ -417,7 +511,11 @@ const UserList = () => {
                       </tr>
                       <tr>
                         <th scope="row">
-                          <input className="form-check-input" type="checkbox" />
+                          <input
+                            className="form-check-input"
+                            onChange={() => {}}
+                            type="checkbox"
+                          />
                         </th>
                         <td>
                           <img src={img4} width="25" alt="" />
@@ -470,7 +568,11 @@ const UserList = () => {
                       </tr>
                       <tr>
                         <th scope="row">
-                          <input className="form-check-input" type="checkbox" />
+                          <input
+                            className="form-check-input"
+                            onChange={() => {}}
+                            type="checkbox"
+                          />
                         </th>
                         <td>
                           <img src={img4} width="25" alt="" />
@@ -520,7 +622,7 @@ const UserList = () => {
                             </ul>
                           </div>
                         </td>
-                      </tr>
+                      </tr> */}
                     </tbody>
                   </table>
                 </div>

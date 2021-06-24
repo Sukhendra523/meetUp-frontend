@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import Navbar from "../../UI/Navbar";
 import img1 from "./images/back-button.png";
 import img2 from "./images/download.jpg";
 
 const EditUser = () => {
+  const { id } = useParams();
+  const { users } = useSelector((state) => state.user);
+  const user = users.find(({ _id }) => _id === id);
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
+  const [image, setImage] = useState(user.image);
+  const [role, setRole] = useState(user.role);
+
   return (
     <>
       <Navbar />
-      <div class="back-btn mt-4">
+      <div class="back-btn pt-5 mt-4">
         <img src={img1} alt="" />
-        <span class="p-2">Back to List</span>
+        <Link to="/users">
+          <span class="p-2">Back to List</span>
+        </Link>
       </div>
 
       <section>
@@ -23,16 +35,20 @@ const EditUser = () => {
                   </header>
                   <div class="user-desc p-4">
                     <div class="profile text-center">
-                      <img src={img2} alt="" class="img-fluid w-25" />
+                      <img
+                        src={image ? image : img2}
+                        alt=""
+                        class="img-fluid w-25"
+                      />
                     </div>
                     <div class="profile-detail text-center">
-                      <h5>Francis Walker</h5>
-                      <p>Project Manger</p>
+                      <h5>{username}</h5>
+                      <p>{role.name}</p>
                     </div>
                   </div>
 
                   <ul class="list-unstyled">
-                    <li>
+                    {/* <li>
                       <h6>Default Site</h6>
                       <p>mysite.com</p>
                     </li>
@@ -49,7 +65,7 @@ const EditUser = () => {
                         19 Jul 2017 <br /> by
                         <span>Stephen Palmer</span>
                       </p>
-                    </li>
+                    </li> */}
                     <li>
                       <button class="btn delete "> DELETE USER</button>
                     </li>
@@ -77,7 +93,7 @@ const EditUser = () => {
                           Profile
                         </div>
                       </li>
-                      <li class="nav-item" role="presentation">
+                      {/* <li class="nav-item" role="presentation">
                         <div
                           class="nav-link"
                           id="pills-Roles-tab"
@@ -89,7 +105,7 @@ const EditUser = () => {
                         >
                           Roles
                         </div>
-                      </li>
+                      </li> */}
                     </ul>
                   </header>
                   <div class="tab-content" id="pills-tabContent">
@@ -105,14 +121,14 @@ const EditUser = () => {
                             for="inputname"
                             class="col-md-2 col-12 col-form-label"
                           >
-                            Full Name <span>*</span>
+                            Username <span>*</span>
                           </label>
                           <div class="col-sm-10 col-12" col-md-10>
                             <input
                               type="name"
                               class="form-control  is-valid"
                               id="inputname"
-                              value="Fransic Walker"
+                              value={username}
                               required
                             />
                             <div class="valid-feedback">
@@ -133,6 +149,7 @@ const EditUser = () => {
                               type="email"
                               class="form-control is-invalid"
                               id="inputemail"
+                              value={email}
                               required
                             />
                             <div
@@ -160,9 +177,9 @@ const EditUser = () => {
                               <option selected>
                                 Select the User Type here
                               </option>
-                              <option value="1">One</option>
-                              <option value="2">Two</option>
-                              <option value="3">Three</option>
+                              <option value="1">Student</option>
+                              <option value="2">Teacher</option>
+                              <option value="3">Admin</option>
                             </select>
                             <div class="invalid-feedback">
                               <i class="fas fa-times"></i> User Type cannot be

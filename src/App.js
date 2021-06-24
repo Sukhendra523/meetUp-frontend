@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { isUserLoggedIn } from "./actions";
+import { getAllUsers, isUserLoggedIn } from "./actions";
 import "./App.css";
 import PrivateRoute from "./components/HOC/PrivateRoute";
 import Meeting from "./components/meeting/meeting";
@@ -22,20 +22,23 @@ function App() {
     if (!auth.authenticated) {
       dispatch(isUserLoggedIn());
     }
-  }, []);
+  }, [auth]);
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [auth]);
   return (
     <div className="">
       <Router>
         <Switch>
-          <PrivateRoute path="/dashboard" exact component={Home} />
+          <PrivateRoute path="/" exact component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/Register" component={Register} />
-          <Route path="/meeting" component={Meeting} />
-          <Route path="/meetings" component={MeetingsList} />
-          <Route path="/roles" component={RoleList} />
-          <Route path="/features" component={MeetingFeatures} />
-          <Route path="/users" component={UserList} />
-          <Route path="/user/:id" component={EditUser} />
+          <PrivateRoute path="/meeting" component={Meeting} />
+          <PrivateRoute path="/meetings" component={MeetingsList} />
+          <PrivateRoute path="/roles" component={RoleList} />
+          <PrivateRoute path="/features" component={MeetingFeatures} />
+          <PrivateRoute path="/users" component={UserList} />
+          <PrivateRoute path="/user/:id" component={EditUser} />
         </Switch>
       </Router>
     </div>

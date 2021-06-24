@@ -1,12 +1,17 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { permissionConstants } from "../../constants";
 
 const Navbar = (props) => {
+  const auth = useSelector((state) => state.auth);
+  const { permissions } = auth;
+
   const { form } = props;
   const navbarOptions = [
     {
       labele: "Dashboard",
-      link: "/dashboard",
+      link: "/",
       access: true,
     },
     {
@@ -17,24 +22,24 @@ const Navbar = (props) => {
     {
       labele: "Users",
       link: "/users",
-      access: true,
+      access: permissions.includes(permissionConstants.READ_USER),
     },
     {
       labele: "Roles",
       link: "/roles",
-      access: true,
+      access: permissions.includes(permissionConstants.WRITE_ROLE),
     },
 
     {
       labele: "Features",
       link: "/features",
-      access: true,
+      access: permissions.includes(permissionConstants.WRITE_FEATURE),
     },
   ];
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light">
+      <nav className="navbar fixed-top navbar-expand-lg navbar-light">
         <div className="container">
           <button
             className="navbar-toggler"
