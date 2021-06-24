@@ -1,10 +1,12 @@
-/* Login page CSS start here */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   color: #c9c8c6;
+}
+
+body {
+  background-color: #f7f7f7;
 }
 
 a {
@@ -13,7 +15,6 @@ a {
 }
 
 .wrapper {
-  background-color: #f7f7f7;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -111,7 +112,7 @@ a {
   justify-content: center;
   align-items: center;
   width: 40px;
-  border-radius: 0.25rem 0px 0px 0.25rem;
+  border-radius: .25rem 0px 0px .25rem;
 }
 
 .form-check label,
@@ -148,29 +149,389 @@ a {
   box-shadow: none;
 }
 
-@media screen and (max-width: 991px) {
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 11px #b3b3b3
+}
+
+.nav-link {
+  font-weight: bold;
+  color: #757575e0;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  border-bottom: 2px solid rgb(29, 190, 248);
+}
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+  background-color: #f3f3f3;
+  border-radius: 20px;
+  border: none;
+  width: 96%;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+.add-btn {
+  border-radius: 20px;
+  padding: auto 20px;
+}
+
+.add-btn i {
+  color: white;
+}
+
+.table-card {
+  padding: 10px;
+  margin: 40px auto;
+  border-radius: 10px;
+  color: black !important;
+  height: 700px;
+}
+
+.table-responsive {
+  overflow-y: hidden;
+  padding: 0px 20px;
+}
+
+table th,
+tr,
+td,
+span {
+  color: rgb(75, 75, 75) !important;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 16px 0 !important;
+  vertical-align: middle;
+}
+
+td img {
+  margin-right: 10px !important;
+}
+
+th input {
+  margin: 0px 10px;
+}
+
+tr {
+  border-bottom: 1px solid rgb(228, 228, 228);
+}
+
+td i {
+  float: right;
+  color: #a8d1f7;
+  font-size: 14px;
+}
+
+.btn-active {
+  font-size: 11px;
+  background-color: #3ed890;
+  color: white !important;
+  text-transform: uppercase;
+  border-radius: 20px;
+  width: 80px;
+  padding: 4px 10px;
+}
+
+.btn-pending {
+  font-size: 11px;
+  background-color: #fcb958;
+  color: white !important;
+  text-transform: uppercase;
+  border-radius: 20px;
+  width: 80px;
+  padding: 4px 10px;
+}
+
+.dots {
+  margin-top: -20px;
+}
+
+th span:hover {
+  border-bottom: 1px solid #a8d1f7;
+}
+
+.heading-content i {
+  margin: 0 3px;
+  font-size: 20px;
+}
+
+.heading-content p {
+  margin-bottom: 0 !important;
+  color: black;
+}
+
+.heading-content p span {
+  font-weight: bold;
+}
+
+.heading-content .dropdown {
+  margin-left: 7px;
+  font-size: 14px;
+}
+
+.heading-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dropdown-menu {
+  border: none;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgb(228, 226, 226);
+}
+
+.dropdown span i {
+  font-size: 14px;
+}
+
+.dropdown span i:last-child {
+  margin-right: 10px;
+  color: #a8d1f7;
+}
+
+.menu-list li {
+  border-bottom: 1px solid #f5f5f5;
+  padding: 7px 2px;
+}
+
+.menu-list .form-check-input {
+  border-radius: 50%;
+}
+
+.form-check-input:checked {
+  background-color: #a8d1f7;
+  border-color: #a8d1f7;
+}
+
+.account-sec {
+  width: 90%;
+  margin: 40px auto;
+}
+
+.account-card {
+  width: 100%;
+  height: 700px;
+  background-color: #FFF;
+  box-shadow: 0 0 10px rgb(177, 177, 177);
+  border-radius: 10px;
+}
+
+.valid-feedback,
+.valid-feedback i {
+  color: #19e285;
+}
+
+.invalid-feedback,
+.invalid-feedback i {
+  color: #ee3346;
+}
+
+.back-btn {
+  margin-left: 10%;
+}
+
+header {
+  height: 100px;
+  padding: 20px;
+  border-bottom: 1px solid #f9f9f9;
+}
+
+.account-card .col-lg-3 {
+  border-right: 1px solid #f9f9f9;
+}
+
+.user-details h6 {
+  font-size: 18px;
+  color: #656565;
+}
+
+.profile-detail h5 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4d4d4d;
+  margin-top: 20px;
+}
+
+.profile-detail p {
+  font-size: 14px;
+  font-weight: 300;
+  color: #9c9c9f;
+}
+
+.user-details ul li {
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  padding-bottom: 7px;
+}
+
+.user-details ul li h6 {
+  font-size: 14px;
+  color: #7c7c7c;
+  font-weight: bold;
+}
+
+.user-details ul li p {
+  font-size: 12px;
+  color: #9c9c9f;
+}
+
+.user-details ul li p span {
+  color: #9c9c9f !important;
+  text-decoration: underline;
+}
+
+.delete {
+  border-radius: 20px;
+  font-size: 12px;
+  background-color: #e74e46;
+}
+
+.form-control.is-valid,
+.was-validated .form-control:valid,
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+  background-image: none;
+}
+
+#pills-profile label {
+  color: black;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+#pills-profile input,
+#pills-profile select {
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+#pills-profile label>span,
+.footer-card p span {
+  color: #ee3346!important;
+}
+
+.invalid-feedback,
+.valid-feedback {
+  margin-left: 15px;
+}
+
+.tab-content {
+  padding: 0 20px 0 40px;
+}
+
+.tab-content .row {
+  padding: 16px 0px;
+}
+
+.update {
+  background-color: #469cf3;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.cancel {
+  border-radius: 20px;
+  font-size: 12px;
+  border: 1px solid #d1d1d1;
+  color: #b5b5b5;
+  margin-left: 20px;
+}
+
+.footer-card p {
+  color: black;
+  text-align: end;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+  color: #656565;
+  background-color: transparent;
+  border-radius: 0;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+@media screen and (max-width:991px) {
   .offset-1 {
-    margin-left: 0;
+      margin-left: 0;
   }
   .bottom .btn {
-    padding: 5px;
+      padding: 5px;
   }
   .card {
-    padding: 10%;
+      padding: 10%;
+  }
+  .table-card {
+      padding: 1%;
+      height: auto;
+  }
+  th,
+  td {
+      padding: 20px 10px !important;
+  }
+  table th,
+  tr,
+  td,
+  span {
+      font-size: 12px;
+  }
+  .justify-content-end {
+      justify-content: left !important;
+      margin-top: 16px;
+  }
+  .footer-card {
+      margin-top: 1rem !important;
   }
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width:420px) {
   .card {
-    padding: 25% 10%;
+      padding: 25% 10%;
   }
   .card-1 {
-    display: none;
+      display: none;
   }
   .bar::after,
   .bar::before {
-    width: 100px;
+      width: 100px;
+  }
+  .table-card {
+      height: auto;
+      padding: 10px;
+  }
+  .justify-content-end {
+      justify-content: left !important;
+  }
+  .dots {
+      margin-top: 0 !important;
+      margin-right: 16px;
+  }
+  .account-det {
+      background-color: white;
+      margin: 40px 0 20px 0;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgb(177, 177, 177);
+  }
+  .footer-card p {
+      margin-top: 20px;
+      text-align: left;
   }
 }
-
-/* Login page CSS end here */

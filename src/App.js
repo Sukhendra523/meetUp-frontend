@@ -8,6 +8,8 @@ import Meeting from "./components/meeting/meeting";
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";
+import UserList from "./components/pages/Users/UserList";
+import AddUser from "./components/pages/Users/AddUser";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -26,6 +28,8 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/Register" component={Register} />
           <Route path="/meeting" component={Meeting}/>
+          <Route path="/UserList" component={UserList}/>
+          <Route path="/AddUser" component={AddUser}/>
         </Switch>
       </Router>
     </div>
