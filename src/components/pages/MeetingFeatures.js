@@ -1,15 +1,13 @@
 import React from "react";
 import Navbar from "../UI/Navbar";
 
-const Home = () => {
+const MeetingFeatures = () => {
   return (
     <>
       <Navbar />
-      <div>
-        <h1>Welcome Home</h1>
-      </div>
+      <div>Meeting Features</div>
     </>
   );
 };
 
-export default Home;
+export default MeetingFeatures;

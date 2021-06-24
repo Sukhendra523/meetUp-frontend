@@ -2,12 +2,7 @@ import { authConstants, userConstants } from "../constants";
 
 const initialState = {
   token: null,
-  user: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    picture: "",
-  },
+  user: {},
   authenticated: false,
   authenticating: false,
   loading: false,
