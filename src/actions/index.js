@@ -1,2 +1,3 @@
 export * from "./auth.action";
-export * from "./user.actions";
+export * from "./user.action";
+export * from "./role.action";

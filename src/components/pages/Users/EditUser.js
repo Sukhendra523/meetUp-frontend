@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { updateUser } from "../../../actions";
+import { getAllRoles } from "../../../actions";
 import Navbar from "../../UI/Navbar";
 import img1 from "./images/back-button.png";
 import img2 from "./images/download.jpg";
@@ -8,46 +10,65 @@ import img2 from "./images/download.jpg";
 const EditUser = () => {
   const { id } = useParams();
   const { users } = useSelector((state) => state.user);
+  const { roles } = useSelector((state) => state.role);
+  const dispatch = useDispatch();
+
   const user = users.find(({ _id }) => _id === id);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [image, setImage] = useState(user.image);
   const [role, setRole] = useState(user.role);
+  const [message, setMessage] = useState(users.message);
+
+  useEffect(() => {
+    dispatch(getAllRoles());
+  }, []);
+
+  const updateUserHandler = () => {
+    const user = {
+      username,
+      email,
+      role,
+    };
+
+    dispatch(updateUser(user, id));
+  };
 
   return (
     <>
       <Navbar />
-      <div class="back-btn pt-5 mt-4">
+      <div className="back-btn pt-5 mt-4">
         <img src={img1} alt="" />
         <Link to="/users">
-          <span class="p-2">Back to List</span>
+          <span className="p-2">Back to List</span>
         </Link>
       </div>
 
       <section>
-        <div class="account-sec">
-          <div class="account-card">
-            <div class="row g-0">
-              <div class="col-lg-3  col-md-3 col-sm-12 pb-3 ">
-                <div class="user-details">
-                  <header class="d-flex align-items-center justify-content-center">
-                    <h6 class="text-center">User Account</h6>
+        <div className="account-sec">
+          <div className="account-card">
+            <div className="row g-0">
+              <div className="col-lg-3  col-md-3 col-sm-12 pb-3 ">
+                <div className="user-details">
+                  <header className="d-flex align-items-center justify-content-center">
+                    <h6 className="text-center">User Account</h6>
                   </header>
-                  <div class="user-desc p-4">
-                    <div class="profile text-center">
+                  <div className="user-desc p-4">
+                    <div className="profile text-center">
                       <img
                         src={image ? image : img2}
                         alt=""
-                        class="img-fluid w-25"
+                        className="img-fluid w-25"
                       />
                     </div>
-                    <div class="profile-detail text-center">
-                      <h5>{username}</h5>
+                    <div className="profile-detail text-center">
+                      <h3>{username}</h3>
+                      <h5>{email}</h5>
                       <p>{role.name}</p>
                     </div>
                   </div>
 
-                  <ul class="list-unstyled">
+                  <ul className="list-unstyled">
                     {/* <li>
                       <h6>Default Site</h6>
                       <p>mysite.com</p>
@@ -67,22 +88,22 @@ const EditUser = () => {
                       </p>
                     </li> */}
                     <li>
-                      <button class="btn delete "> DELETE USER</button>
+                      <button className="btn delete "> DELETE USER</button>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div class="col-lg-9 col-md-9 col-sm-12 account-det">
+              <div className="col-lg-9 col-md-9 col-sm-12 account-det">
                 <div>
                   <header>
                     <ul
-                      class="nav nav-pills mb-3"
+                      className="nav nav-pills mb-3"
                       id="pills-tab"
                       role="tablist"
                     >
-                      <li class="nav-item" role="presentation">
+                      <li className="nav-item" role="presentation">
                         <div
-                          class="nav-link active"
+                          className="nav-link active"
                           id="pills-profile-tab"
                           data-bs-toggle="pill"
                           data-bs-target="#pills-profile"
@@ -93,9 +114,9 @@ const EditUser = () => {
                           Profile
                         </div>
                       </li>
-                      {/* <li class="nav-item" role="presentation">
+                      <li className="nav-item" role="presentation">
                         <div
-                          class="nav-link"
+                          className="nav-link"
                           id="pills-Roles-tab"
                           data-bs-toggle="pill"
                           data-bs-target="#pills-Roles"
@@ -103,123 +124,126 @@ const EditUser = () => {
                           aria-controls="pills-Roles"
                           aria-selected="false"
                         >
-                          Roles
+                          {message}
                         </div>
-                      </li> */}
+                      </li>
                     </ul>
                   </header>
-                  <div class="tab-content" id="pills-tabContent">
+                  <div className="tab-content" id="pills-tabContent">
                     <div
-                      class="tab-pane fade show active"
+                      className="tab-pane fade show active"
                       id="pills-profile"
                       role="tabpanel"
                       aria-labelledby="pills-profile-tab"
                     >
                       <form action="">
-                        <div class="my-2 row">
+                        <div className="my-2 row">
                           <label
                             for="inputname"
-                            class="col-md-2 col-12 col-form-label"
+                            className="col-md-2 col-12 col-form-label"
                           >
                             Username <span>*</span>
                           </label>
-                          <div class="col-sm-10 col-12" col-md-10>
+                          <div className="col-sm-10 col-12" col-md-10>
                             <input
                               type="name"
-                              class="form-control  is-valid"
+                              className="form-control  is-valid"
                               id="inputname"
                               value={username}
+                              onChange={(e) => setUsername(e.target.value)}
                               required
                             />
-                            <div class="valid-feedback">
-                              <i class="fas fa-check"></i> Full name is Okay
-                            </div>
+                            {/* <div className="valid-feedback">
+                              <i className="fas fa-check"></i> Full name is Okay
+                            </div> */}
                           </div>
                         </div>
-                        <div class="my-2 row">
+                        <div className="my-2 row">
                           <label
                             for="inputemail"
-                            class="col-md-2 col-12 col-form-label"
+                            className="col-md-2 col-12 col-form-label"
                           >
                             {" "}
                             Email <span>*</span>
                           </label>
-                          <div class="col-sm-10 col-12" col-md-10>
+                          <div className="col-sm-10 col-12" col-md-10>
                             <input
                               type="email"
-                              class="form-control is-invalid"
+                              className="form-control is-invalid"
                               id="inputemail"
                               value={email}
+                              onChange={(e) => setEmail(e.target.value)}
                               required
                             />
-                            <div
-                              class="invalid-feedback"
+                            {/* <div
+                              className="invalid-feedback"
                               value="Fransic.Walker@mysite"
                             >
-                              <i class="fas fa-times"></i> Invalid Email
+                              <i className="fas fa-times"></i> Invalid Email
                               address.
-                            </div>
+                            </div> */}
                           </div>
                         </div>
-                        <div class="my-2 row">
+                        <div className="my-2 row">
                           <label
                             for="inputuser"
-                            class="col-md-2 col-12 col-form-label"
+                            className="col-md-2 col-12 col-form-label"
                           >
                             User Type<span>*</span>
                           </label>
-                          <div class="col-sm-10 col-12" col-md-10>
+                          <div className="col-sm-10 col-12" col-md-10>
                             <select
-                              class="form-select is-invalid"
+                              className="form-select is-invalid"
                               aria-label="Default select example"
                               required
+                              onChange={(e) => setRole(e.target.value)}
                             >
-                              <option selected>
-                                Select the User Type here
+                              <option value={user.role.name} selected>
+                                {user.role.name}
                               </option>
-                              <option value="1">Student</option>
-                              <option value="2">Teacher</option>
-                              <option value="3">Admin</option>
+                              {roles.map((role) => (
+                                <option value={role._id}>{role.name}</option>
+                              ))}
                             </select>
-                            <div class="invalid-feedback">
-                              <i class="fas fa-times"></i> User Type cannot be
+                            {/* <div className="invalid-feedback">
+                              <i className="fas fa-times"></i> User Type cannot be
                               Blank
-                            </div>
+                            </div> */}
                           </div>
                         </div>
-                        <div class="my-2 row">
+                        {/* <div className="my-2 row">
                           <label
                             for="inputstatus"
-                            class="col-md-2 col-12 col-form-label"
+                            className="col-md-2 col-12 col-form-label"
                           >
                             Status<span>*</span>
                           </label>
-                          <div class="col-sm-10 col-12 col-md-10">
-                            <div class="form-check form-check-inline">
+                          <div className="col-sm-10 col-12 col-md-10">
+                            <div className="form-check form-check-inline">
                               <input
-                                class="form-check-input"
+                                className="form-check-input"
                                 type="radio"
                                 name="inlineRadioOptions"
                                 id="inlineRadio1"
                                 value="option1"
                               />
                               <label
-                                class="form-check-label"
+                                className="form-check-label"
                                 for="inlineRadio1"
                               >
                                 Active
                               </label>
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div className="form-check form-check-inline">
                               <input
-                                class="form-check-input"
+                                className="form-check-input"
                                 type="radio"
                                 name="inlineRadioOptions"
                                 id="inlineRadio2"
                                 value="option2"
                               />
                               <label
-                                class="form-check-label"
+                                className="form-check-label"
                                 for="inlineRadio2"
                               >
                                 Pending
@@ -227,16 +251,16 @@ const EditUser = () => {
                             </div>
                           </div>
                         </div>
-                        <div class="my-2 row">
+                        <div className="my-2 row">
                           <label
                             for="inputuser"
-                            class="col-md-2 col-12 col-form-label"
+                            className="col-md-2 col-12 col-form-label"
                           >
                             Language
                           </label>
-                          <div class="col-sm-10 col-12 col-md-10">
+                          <div className="col-sm-10 col-12 col-md-10">
                             <select
-                              class="form-select"
+                              className="form-select"
                               aria-label="Default select example"
                             >
                               <option selected>
@@ -247,14 +271,19 @@ const EditUser = () => {
                               <option value="3">Three</option>
                             </select>
                           </div>
-                        </div>
+                        </div> */}
 
-                        <div class="mt-5 row footer-card ">
-                          <div class="col-lg-8 col-md-6">
-                            <div class="btn update">Update User</div>
-                            <div class="btn cancel">Cancel</div>
+                        <div className="mt-5 row footer-card ">
+                          <div className="col-lg-8 col-md-6">
+                            <div
+                              className="btn update"
+                              onClick={updateUserHandler}
+                            >
+                              Update User
+                            </div>
+                            <div className="btn cancel">Cancel</div>
                           </div>
-                          <div class="col-lg-4 col-md-6 ">
+                          <div className="col-lg-4 col-md-6 ">
                             <p>
                               {" "}
                               <span>*</span> Indicates required fields
@@ -264,7 +293,7 @@ const EditUser = () => {
                       </form>
                     </div>
                     <div
-                      class="tab-pane fade"
+                      className="tab-pane fade"
                       id="pills-Roles"
                       role="tabpanel"
                       aria-labelledby="pills-Roles-tab"

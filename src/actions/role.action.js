@@ -1,20 +1,20 @@
-import { userConstants } from "../constants";
+import { roleConstants } from "../constants";
 import axios from "../helper/axios";
 
-export const getAllUsers = () => {
+export const getAllRoles = () => {
   return async (dispatch) => {
-    dispatch({ type: userConstants.GET_ALL_USER_REQUEST });
+    dispatch({ type: roleConstants.GET_ALL_ROLE_REQUEST });
     try {
-      const res = await axios.get("/users");
+      const res = await axios.get("/roles");
       console.log("data", res.data);
       if (res.status === 200) {
         dispatch({
-          type: userConstants.GET_ALL_USER_SUCCESS,
-          payload: { users: res.data },
+          type: roleConstants.GET_ALL_ROLE_SUCCESS,
+          payload: { roles: res.data },
         });
       } else {
         dispatch({
-          type: userConstants.GET_ALL_USER_FAILURE,
+          type: roleConstants.GET_ALL_ROLE_FAILURE,
           payload: { message: res.data.message },
         });
       }

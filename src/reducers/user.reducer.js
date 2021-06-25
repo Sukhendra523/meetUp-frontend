@@ -32,6 +32,28 @@ const userReducer = (state = initialState, action) => {
         message: message,
       };
       break;
+    case userConstants.UPDATE_USER_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+        message: "Loading Please Wait",
+      };
+      break;
+    case userConstants.UPDATE_USER_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        message: action.payload.message,
+      };
+      break;
+    case userConstants.UPDATE_USER_FAILURE:
+      state = {
+        ...state,
+        loading: false,
+        message: action.payload.message,
+      };
+      break;
+
     default:
       break;
   }

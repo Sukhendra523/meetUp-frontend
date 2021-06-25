@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../UI/Navbar";
 import img1 from "./images/back-button.png";
 import img2 from "./images/right.png";
@@ -9,10 +9,19 @@ import img6 from "./images/pencil.png";
 import img7 from "./images/left-and-right-arrows.png";
 import img8 from "./images/bin.png";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsers } from "../../../actions";
 
 const UserList = () => {
   const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (auth.authenticated) {
+      dispatch(getAllUsers());
+    }
+  }, []);
+
   const { users } = useSelector((state) => state.user);
   console.log("users", users);
   const search = () => {};
@@ -26,7 +35,7 @@ const UserList = () => {
           placeholder: "Search User",
         }}
       />
-      <section className="pt-3">
+      <section className="pt-4">
         <div className="container">
           <div className="row heading-content px-3 mt-5">
             <div className="col-lg-6 d-flex align-items-center">
