@@ -78,16 +78,18 @@ const Navbar = (props) => {
                       type="text"
                       className="form-control"
                       placeholder={form.placeholder}
-                      onChange={form.search}
+                      onChange={(e) => form.search(e.target.value)}
                     />
                   </div>
                 )}
-                <Link
-                  className="btn btn-primary p-2 ml-2 add-btn"
-                  type="submit"
-                >
-                  <i className="fa fa-plus-circle"></i> {form.button}
-                </Link>
+                {form.access && (
+                  <Link
+                    className="btn btn-primary p-2 ml-2 add-btn"
+                    type="submit"
+                  >
+                    <i className="fa fa-plus-circle"></i> {form.button}
+                  </Link>
+                )}
               </form>
             )}
           </div>

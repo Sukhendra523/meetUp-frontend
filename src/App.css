@@ -200,7 +200,7 @@ a {
 }
 
 .table-responsive {
-  overflow-y: hidden;
+  overflow-y: auto;
   padding: 0px 20px;
 }
 

@@ -2,12 +2,15 @@ import { userConstants } from "../constants";
 
 const initialState = {
   users: [],
+  user: {},
   loading: false,
   message: "",
+  deleted: false,
+  updated: false,
 };
 
 const userReducer = (state = initialState, action) => {
-  console.log("::::::::::::::::::::>>>>>>>", action);
+  console.log("::::::::::::::::::::>>>>>>>User Action", action);
   switch (action.type) {
     case userConstants.GET_ALL_USER_REQUEST:
       state = {
@@ -32,6 +35,28 @@ const userReducer = (state = initialState, action) => {
         message: message,
       };
       break;
+    case userConstants.GET_USER_DETAILS_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+        message: "Loading Please Wait",
+      };
+      break;
+    case userConstants.GET_USER_DETAILS_SUCCESS:
+      const { user } = action.payload;
+      state = {
+        ...state,
+        user: user,
+        loading: false,
+        message: "Get user details Success",
+      };
+      break;
+    case userConstants.GET_USER_DETAILS_FAILURE:
+      state = {
+        ...initialState,
+        message: action.payload.message,
+      };
+      break;
     case userConstants.UPDATE_USER_REQUEST:
       state = {
         ...state,
@@ -47,6 +72,51 @@ const userReducer = (state = initialState, action) => {
       };
       break;
     case userConstants.UPDATE_USER_FAILURE:
+      state = {
+        ...state,
+        loading: false,
+        message: action.payload.message,
+      };
+      break;
+
+    case userConstants.DELETE_USER_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+        message: "Loading Please Wait",
+      };
+      break;
+    case userConstants.DELETE_USER_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        deleted: true,
+        message: action.payload.message,
+      };
+      break;
+    case userConstants.DELETE_USER_FAILURE:
+      state = {
+        ...state,
+        loading: false,
+        deleted: false,
+        message: action.payload.message,
+      };
+      break;
+
+    case userConstants.SEARCH_USER_REQUEST:
+      state = {
+        ...state,
+        message: "Loading Please Wait",
+      };
+      break;
+    case userConstants.SEARCH_USER_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        users: action.payload.users,
+      };
+      break;
+    case userConstants.SEARCH_USER_FAILURE:
       state = {
         ...state,
         loading: false,

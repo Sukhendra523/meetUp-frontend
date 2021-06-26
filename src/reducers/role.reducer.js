@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const roleReducer = (state = initialState, action) => {
-  console.log("::::::::::::::::::::>>>>>>>roleReducer", action);
+  console.log("::::::::::::::::::::>>>>>>> RoleReducer", action);
   switch (action.type) {
     case roleConstants.GET_ALL_ROLE_REQUEST:
       state = {

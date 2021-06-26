@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { updateUser } from "../../../actions";
+import { Link, useParams, Redirect } from "react-router-dom";
+
+import {
+  deleteUser,
+  getAllUsers,
+  getUserDetails,
+  updateProfile,
+  updateUser,
+} from "../../../actions";
 import { getAllRoles } from "../../../actions";
 import Navbar from "../../UI/Navbar";
 import img1 from "./images/back-button.png";
@@ -9,30 +16,57 @@ import img2 from "./images/download.jpg";
 
 const EditUser = () => {
   const { id } = useParams();
-  const { users } = useSelector((state) => state.user);
-  const { roles } = useSelector((state) => state.role);
   const dispatch = useDispatch();
-
-  const user = users.find(({ _id }) => _id === id);
-  const [username, setUsername] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
-  const [image, setImage] = useState(user.image);
-  const [role, setRole] = useState(user.role);
-  const [message, setMessage] = useState(users.message);
+  useEffect(() => {
+    dispatch(getUserDetails(id));
+  }, []);
 
   useEffect(() => {
     dispatch(getAllRoles());
   }, []);
+  const { user, message, loading } = useSelector((state) => state.user);
+
+  console.log("user", user);
+  const { roles } = useSelector((state) => state.role);
+  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
+  const [image, setImage] = useState();
+  const [role, setRole] = useState();
+  const [deleted, setDeleted] = useState(false);
+  const [profileUpdated, setProfileUpdated] = useState(false);
+  console.log("role", role);
 
   const updateUserHandler = () => {
-    const user = {
-      username,
-      email,
-      role,
+    const userData = {
+      username: username ?? user.username,
+      email: email ?? user.email,
+      role: role ?? user.role._id,
     };
 
-    dispatch(updateUser(user, id));
+    dispatch(updateUser(userData, id));
   };
+
+  const deleteUserHandler = () => {
+    dispatch(deleteUser(id));
+    setDeleted(true);
+  };
+  if (deleted) {
+    return <Redirect to="/users" />;
+  }
+
+  const updateUserProfile = (event) => {
+    console.log("event.target.files[0]", event.target.files[0]);
+
+    console.log("image :::::&&&&&", image);
+    const formData = new FormData();
+    formData.append("image", event.target.files[0]);
+    dispatch(updateProfile(formData, id));
+    setImage(URL.createObjectURL(event.target.files[0]));
+  };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
@@ -54,17 +88,34 @@ const EditUser = () => {
                     <h6 className="text-center">User Account</h6>
                   </header>
                   <div className="user-desc p-4">
-                    <div className="profile text-center">
+                    <div
+                      className="profile text-center"
+                      style={{ position: "relative" }}
+                    >
+                      <input
+                        type="file"
+                        onChange={updateUserProfile}
+                        style={{
+                          position: "absolute",
+                          width: "25%",
+                          height: "100%",
+                          opacity: 0,
+                          border: "1px solid red",
+                        }}
+                        className="profile_uploder_img"
+                        accept="image/*"
+                      />
                       <img
-                        src={image ? image : img2}
+                        style={{ borderRadius: "50%", height: "74px" }}
+                        src={image ?? (user.image ? user.image : img2)}
                         alt=""
                         className="img-fluid w-25"
                       />
                     </div>
                     <div className="profile-detail text-center">
-                      <h3>{username}</h3>
-                      <h5>{email}</h5>
-                      <p>{role.name}</p>
+                      <h3>{user.username}</h3>
+                      <h5>{user.email}</h5>
+                      <p>{user.role?.name}</p>
                     </div>
                   </div>
 
@@ -88,7 +139,13 @@ const EditUser = () => {
                       </p>
                     </li> */}
                     <li>
-                      <button className="btn delete "> DELETE USER</button>
+                      <button
+                        className="btn delete "
+                        onClick={deleteUserHandler}
+                      >
+                        {" "}
+                        DELETE ACCOUNT
+                      </button>
                     </li>
                   </ul>
                 </div>
@@ -149,7 +206,7 @@ const EditUser = () => {
                               type="name"
                               className="form-control  is-valid"
                               id="inputname"
-                              value={username}
+                              value={username ?? user.username}
                               onChange={(e) => setUsername(e.target.value)}
                               required
                             />
@@ -171,7 +228,7 @@ const EditUser = () => {
                               type="email"
                               className="form-control is-invalid"
                               id="inputemail"
-                              value={email}
+                              value={email ?? user.email}
                               onChange={(e) => setEmail(e.target.value)}
                               required
                             />
@@ -198,11 +255,13 @@ const EditUser = () => {
                               required
                               onChange={(e) => setRole(e.target.value)}
                             >
-                              <option value={user.role.name} selected>
-                                {user.role.name}
+                              <option value={role ?? user.role?._id} selected>
+                                {user.role?.name}
                               </option>
-                              {roles.map((role) => (
-                                <option value={role._id}>{role.name}</option>
+                              {roles.map((role, i) => (
+                                <option key={i} value={role._id}>
+                                  {role.name}
+                                </option>
                               ))}
                             </select>
                             {/* <div className="invalid-feedback">

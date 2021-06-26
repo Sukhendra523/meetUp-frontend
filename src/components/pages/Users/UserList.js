@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../UI/Navbar";
 import img1 from "./images/back-button.png";
 import img2 from "./images/right.png";
@@ -10,21 +10,38 @@ import img7 from "./images/left-and-right-arrows.png";
 import img8 from "./images/bin.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from "../../../actions";
+import { deleteUser, getAllUsers, searchUsers } from "../../../actions";
+import { permissionConstants } from "../../../constants";
 
 const UserList = () => {
   const auth = useSelector((state) => state.auth);
+  const { permissions } = auth;
   const dispatch = useDispatch();
-
+  const [deleted, setDeleted] = useState(false);
+  const access = permissions.includes(permissionConstants.WRITE_USER);
   useEffect(() => {
-    if (auth.authenticated) {
-      dispatch(getAllUsers());
-    }
+    dispatch(getAllUsers());
   }, []);
 
   const { users } = useSelector((state) => state.user);
-  console.log("users", users);
-  const search = () => {};
+  const deleteUserHandler = (id) => {
+    console.log(">>>>>>>>>>> id", id);
+    dispatch(deleteUser(id));
+    setDeleted(true);
+  };
+  if (deleted) {
+    dispatch(getAllUsers());
+    setDeleted(false);
+  }
+
+  console.log("users--", users);
+  const search = (query) => {
+    if (query) {
+      dispatch(searchUsers(query));
+    } else {
+      dispatch(getAllUsers());
+    }
+  };
   return (
     <>
       <Navbar
@@ -33,6 +50,7 @@ const UserList = () => {
           button: "Create user",
           search,
           placeholder: "Search User",
+          access: access,
         }}
       />
       <section className="pt-4">
@@ -290,57 +308,67 @@ const UserList = () => {
                                 type="checkbox"
                               />
                             </th>
-
                             <td>
                               <img
                                 src={user.image ? user.image : img4}
-                                width="25"
+                                style={{
+                                  borderRadius: "50%",
+                                  width: "40px",
+                                  height: "40px",
+                                }}
                                 alt=""
                               />
                               {user.username}
                             </td>
                             <td>{user.email}</td>
                             <td>{user.role.name}</td>
-                            <td>
-                              <div className="dropdown dots">
-                                <div
-                                  className=""
-                                  type="button"
-                                  id="dropdownMenuButton1"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                >
-                                  <i className="fa fa-ellipsis-h ms-2 dropdown">
-                                    {" "}
-                                  </i>
-                                </div>
-                                <ul
-                                  className="dropdown-menu"
-                                  aria-labelledby="dropdownMenuButton1"
-                                >
-                                  <li>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={`/user/${user._id}`}
-                                    >
-                                      <img src={img6} alt="" /> Edit
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <a className="dropdown-item" href="/">
-                                      <img src={img8} alt="" />
-                                      Remove
-                                    </a>
-                                  </li>
-                                  <li>
+                            {access && (
+                              <td>
+                                <div className="dropdown dots">
+                                  <div
+                                    className=""
+                                    type="button"
+                                    id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                  >
+                                    <i className="fa fa-ellipsis-h ms-2 dropdown">
+                                      {" "}
+                                    </i>
+                                  </div>
+                                  <ul
+                                    className="dropdown-menu"
+                                    aria-labelledby="dropdownMenuButton1"
+                                  >
+                                    <li>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={`/user/${user._id}`}
+                                      >
+                                        <img src={img6} alt="" /> Edit
+                                      </Link>
+                                    </li>
+                                    <li>
+                                      <p
+                                        className="dropdown-item"
+                                        onClick={() =>
+                                          deleteUserHandler(user._id)
+                                        }
+                                      >
+                                        <img src={img8} alt="" />
+                                        Remove
+                                      </p>
+                                    </li>
+                                    {/* <li>
                                     <a href="/" className="dropdown-item">
                                       <img src={img5} alt="" />
                                       Duplicate
                                     </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </td>
+                                  </li> */}
+                                  </ul>
+                                </div>
+                              </td>
+                            )}{" "}
                           </tr>
                         ))}
                       {/* <tr>
