@@ -17,33 +17,33 @@ import img2 from "./images/download.jpg";
 const EditUser = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUserDetails(id));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getUserDetails(id));
+  // }, []);
 
   useEffect(() => {
     dispatch(getAllRoles());
   }, []);
-  const { user, message, loading } = useSelector((state) => state.user);
-
+  const { users, message, loading } = useSelector((state) => state.user);
+  const user = users.find(({ _id }) => _id === id);
   console.log("user", user);
   const { roles } = useSelector((state) => state.role);
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [image, setImage] = useState();
-  const [role, setRole] = useState();
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
+  const [image, setImage] = useState(user.image);
+  const [role, setRole] = useState(user.role._id);
   const [deleted, setDeleted] = useState(false);
-  const [profileUpdated, setProfileUpdated] = useState(false);
+
   console.log("role", role);
 
   const updateUserHandler = () => {
-    const userData = {
-      username: username ?? user.username,
-      email: email ?? user.email,
-      role: role ?? user.role._id,
+    const user = {
+      username,
+      email,
+      role,
     };
 
-    dispatch(updateUser(userData, id));
+    dispatch(updateUser(user, id));
   };
 
   const deleteUserHandler = () => {
@@ -63,10 +63,6 @@ const EditUser = () => {
     dispatch(updateProfile(formData, id));
     setImage(URL.createObjectURL(event.target.files[0]));
   };
-
-  if (!user) {
-    return null;
-  }
 
   return (
     <>
@@ -106,10 +102,14 @@ const EditUser = () => {
                         accept="image/*"
                       />
                       <img
-                        style={{ borderRadius: "50%", height: "74px" }}
-                        src={image ?? (user.image ? user.image : img2)}
+                        style={{
+                          borderRadius: "50%",
+                          height: "100px",
+                          height: "100px",
+                        }}
+                        src={image ? image : img2}
                         alt=""
-                        className="img-fluid w-25"
+                        className="img-fluid "
                       />
                     </div>
                     <div className="profile-detail text-center">
@@ -206,7 +206,7 @@ const EditUser = () => {
                               type="name"
                               className="form-control  is-valid"
                               id="inputname"
-                              value={username ?? user.username}
+                              value={username}
                               onChange={(e) => setUsername(e.target.value)}
                               required
                             />
@@ -228,7 +228,7 @@ const EditUser = () => {
                               type="email"
                               className="form-control is-invalid"
                               id="inputemail"
-                              value={email ?? user.email}
+                              value={email}
                               onChange={(e) => setEmail(e.target.value)}
                               required
                             />
@@ -255,7 +255,7 @@ const EditUser = () => {
                               required
                               onChange={(e) => setRole(e.target.value)}
                             >
-                              <option value={role ?? user.role?._id} selected>
+                              <option value={role} selected>
                                 {user.role?.name}
                               </option>
                               {roles.map((role, i) => (

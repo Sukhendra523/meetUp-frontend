@@ -48,11 +48,11 @@ export const getUserDetails = (id) => {
   };
 };
 
-export const updateUser = (userData, id) => {
+export const updateUser = (user, id) => {
   return async (dispatch) => {
     dispatch({ type: userConstants.UPDATE_USER_REQUEST });
     try {
-      const res = await axios.put(`/user/update/${id}`, userData);
+      const res = await axios.put(`/user/update/${id}`, user);
       console.log("data", res.data);
       if (res.status === 200) {
         dispatch({
