@@ -19,9 +19,6 @@ const UserList = () => {
   const dispatch = useDispatch();
   const [deleted, setDeleted] = useState(false);
   const access = permissions.includes(permissionConstants.WRITE_USER);
-  useEffect(() => {
-    dispatch(getAllUsers());
-  }, []);
 
   const { users } = useSelector((state) => state.user);
   const deleteUserHandler = (id) => {
@@ -55,7 +52,7 @@ const UserList = () => {
       />
       <section className="pt-4">
         <div className="container">
-          <div className="row heading-content px-3 mt-5">
+          {/* <div className="row heading-content px-3 mt-5">
             <div className="col-lg-6 d-flex align-items-center">
               <p>
                 Showing <span>10</span> of <span>98</span> Users
@@ -155,7 +152,7 @@ const UserList = () => {
                         Role
                       </a>
                     </li>
-                    {/* <li>
+                    <li>
                       <a className="dropdown-item" href="/">
                         <span>
                           <i className="fas fa-bars"></i>
@@ -229,7 +226,7 @@ const UserList = () => {
                         </span>{" "}
                         Created By
                       </a>
-                    </li>*/}
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -261,7 +258,7 @@ const UserList = () => {
               </div>
             </div>
           </div>
-
+   */}
           <div className="row">
             <div className="col-lg-12">
               <div className="card table-card">
@@ -666,11 +663,11 @@ const UserList = () => {
               </div>
             </div>
           </div>
-          <div className="d-flex justify-content-center">
+          {/* <div className="d-flex justify-content-center">
             <img src={img1} alt="" className="mx-1" />
             <div>1 2 . . . 9 10</div>
             <img src={img2} alt="" className="mx-1" />
-          </div>
+          </div> */}
         </div>
       </section>
       <div className="container mt-5 px-2"></div>

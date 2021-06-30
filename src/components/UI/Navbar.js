@@ -9,11 +9,11 @@ const Navbar = (props) => {
 
   const { form } = props;
   const navbarOptions = [
-    {
-      labele: "Dashboard",
-      link: "/",
-      access: true,
-    },
+    // {
+    //   labele: "Dashboard",
+    //   link: "/",
+    //   access: true,
+    // },
     {
       labele: "Meetings",
       link: "/meetings",
@@ -24,17 +24,17 @@ const Navbar = (props) => {
       link: "/users",
       access: permissions.includes(permissionConstants.READ_USER),
     },
-    {
-      labele: "Roles",
-      link: "/roles",
-      access: permissions.includes(permissionConstants.WRITE_ROLE),
-    },
+    // {
+    //   labele: "Roles",
+    //   link: "/roles",
+    //   access: permissions.includes(permissionConstants.WRITE_ROLE),
+    // },
 
-    {
-      labele: "Features",
-      link: "/features",
-      access: permissions.includes(permissionConstants.WRITE_FEATURE),
-    },
+    // {
+    //   labele: "Features",
+    //   link: "/features",
+    //   access: permissions.includes(permissionConstants.WRITE_FEATURE),
+    // },
   ];
 
   return (
@@ -84,6 +84,7 @@ const Navbar = (props) => {
                 )}
                 {form.access && (
                   <Link
+                    to={form.link}
                     className="btn btn-primary p-2 ml-2 add-btn"
                     type="submit"
                   >

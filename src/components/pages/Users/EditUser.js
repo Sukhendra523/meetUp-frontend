@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, Redirect } from "react-router-dom";
 
-import {
-  deleteUser,
-  getAllUsers,
-  getUserDetails,
-  updateProfile,
-  updateUser,
-} from "../../../actions";
+import { deleteUser, updateProfile, updateUser } from "../../../actions";
 import { getAllRoles } from "../../../actions";
 import Navbar from "../../UI/Navbar";
 import img1 from "./images/back-button.png";

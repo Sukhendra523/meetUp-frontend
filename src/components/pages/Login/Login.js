@@ -30,7 +30,7 @@ function Login() {
     dispatch(login(user));
   };
   if (auth.authenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to="/meetings" />;
   }
   return (
     <>
@@ -112,11 +112,7 @@ function Login() {
                           )}
                         />
                       </LoginWithButton>
-                      <LoginWithButton site="tw" icon="fa-twitter">
-                        <button type="button" className="btn twitter">
-                          Login with Twitter
-                        </button>
-                      </LoginWithButton>
+
                       <LoginWithButton site="G" icon="fa-google">
                         <button type="button" className="btn google">
                           Login with Google

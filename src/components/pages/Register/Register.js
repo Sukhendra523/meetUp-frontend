@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../../actions";
 import Input from "../../UI/Input";
@@ -153,6 +153,9 @@ function Register() {
                           Login with Google
                         </button>
                       </div>
+                    </div>
+                    <div className="px-5 ">
+                      Already user ? <Link to="/login">Sign in Instead</Link>
                     </div>
                   </div>
                 </div>

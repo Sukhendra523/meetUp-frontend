@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { isUserLoggedIn } from "./actions";
+import { getAllUsers, isUserLoggedIn } from "./actions";
 import "./App.css";
 import PrivateRoute from "./components/HOC/PrivateRoute";
 import Meeting from "./components/meeting/meeting";
@@ -13,7 +13,7 @@ import EditUser from "./components/pages/Users/EditUser";
 import MeetingsList from "./components/pages/MeetingsList";
 import RoleList from "./components/pages/RoleList";
 import MeetingFeatures from "./components/pages/MeetingFeatures";
-
+import EditMeeting from "./components/pages/EditMeeting";
 function App() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -21,6 +21,9 @@ function App() {
   useEffect(() => {
     if (!auth.authenticated) {
       dispatch(isUserLoggedIn());
+    }
+    if (auth.authenticated) {
+      dispatch(getAllUsers());
     }
   }, [auth]);
 
@@ -31,12 +34,14 @@ function App() {
           <PrivateRoute path="/" exact component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/Register" component={Register} />
-          <PrivateRoute path="/meeting" component={Meeting} />
+          <PrivateRoute path="/meetingRoom" component={Meeting} />
           <PrivateRoute path="/meetings" component={MeetingsList} />
           <PrivateRoute path="/roles" component={RoleList} />
           <PrivateRoute path="/features" component={MeetingFeatures} />
           <PrivateRoute path="/users" component={UserList} />
           <PrivateRoute path="/user/:id" component={EditUser} />
+          <PrivateRoute path="/meeting/:id" component={EditMeeting} />
+          <PrivateRoute path="/meeting/create" component={EditMeeting} />
         </Switch>
       </Router>
     </div>
