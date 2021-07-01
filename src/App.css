@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: #c9c8c6;
 }
 
 body {
@@ -531,4 +530,11 @@ header {
     margin-top: 20px;
     text-align: left;
   }
+}
+
+/* code by sukhendra */
+
+.search-emails-list li:hover {
+  background-color: rgb(86, 86, 90);
+  color: white;
 }

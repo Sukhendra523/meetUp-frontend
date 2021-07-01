@@ -14,6 +14,7 @@ import MeetingsList from "./components/pages/MeetingsList";
 import RoleList from "./components/pages/RoleList";
 import MeetingFeatures from "./components/pages/MeetingFeatures";
 import EditMeeting from "./components/pages/EditMeeting";
+
 function App() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -31,11 +32,11 @@ function App() {
     <div className="">
       <Router>
         <Switch>
-          <PrivateRoute path="/" exact component={Home} />
+          <PrivateRoute path="/meetings" component={MeetingsList} />
+          <PrivateRoute path="/" exact component={MeetingsList} />
           <Route path="/login" component={Login} />
           <Route path="/Register" component={Register} />
           <PrivateRoute path="/meetingRoom" component={Meeting} />
-          <PrivateRoute path="/meetings" component={MeetingsList} />
           <PrivateRoute path="/roles" component={RoleList} />
           <PrivateRoute path="/features" component={MeetingFeatures} />
           <PrivateRoute path="/users" component={UserList} />

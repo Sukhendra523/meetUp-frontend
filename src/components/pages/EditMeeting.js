@@ -383,14 +383,15 @@ const EditUser = () => {
                                     >
                                       <span>{email}</span>
                                       <span
-                                        onClick={() =>
+                                        onClick={() => {
                                           setAttendees(
                                             attendees.filter(
                                               (attendee) =>
                                                 attendee.email !== email
                                             )
-                                          )
-                                        }
+                                          );
+                                          $("#attendees").focus();
+                                        }}
                                         className="p-2"
                                       >
                                         <i
@@ -400,39 +401,58 @@ const EditUser = () => {
                                       </span>
                                     </div>
                                   ))}
-                                <input
-                                  style={{
-                                    width: "30%",
-                                    border: "none",
-                                    outline: "none",
-                                    borderRadius: "0",
-                                    color: "black",
-                                    fontSize: "20px",
-                                  }}
-                                  id="attendees"
-                                  // value={newEmail}
-                                  onChange={keyChangeHandler}
-                                />
+                                <div className="position-relative flex-grow-1">
+                                  <input
+                                    autoComplete="off"
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      border: "none",
+                                      outline: "none",
+                                      borderRadius: "0",
+                                      color: "black",
+                                      fontSize: "20px",
+                                    }}
+                                    id="attendees"
+                                    // value={newEmail}
+                                    onChange={keyChangeHandler}
+                                  />
+                                  {searchedEmails.length > 0 && (
+                                    <ul
+                                      className="search-emails-list"
+                                      style={{
+                                        position: "absolute",
+                                        bottom: "20px",
+                                        listStyle: "none",
+                                        padding: 0,
+                                        background: "white",
+                                        boxShadow: "0 0 10px rgb(177 177 177)",
+                                        borderRadius: "10px",
+                                        width: "fit-content",
+                                      }}
+                                    >
+                                      {searchedEmails.map(({ _id, email }) => (
+                                        <li
+                                          style={{ padding: "5px 20px" }}
+                                          onClick={() => {
+                                            setAttendees([
+                                              ...attendees,
+                                              { _id, email },
+                                            ]);
+                                            $("#attendees").val("");
+                                            $("#attendees").focus();
+                                            setSearchedEmails([]);
+                                          }}
+                                        >
+                                          {email}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </div>
                               </div>
                             }
 
-                            <ul style={{ listStyle: "none" }}>
-                              {searchedEmails.length > 0 &&
-                                searchedEmails.map(({ _id, email }) => (
-                                  <li
-                                    onClick={() => {
-                                      setAttendees([
-                                        ...attendees,
-                                        { _id, email },
-                                      ]);
-                                      $("#attendees").val("");
-                                      $("#attendees").focus();
-                                    }}
-                                  >
-                                    {email}
-                                  </li>
-                                ))}
-                            </ul>
                             {/* <div className="valid-feedback">
                               <i className="fas fa-check"></i> Full name is Okay
                             </div> */}
@@ -509,9 +529,11 @@ const EditUser = () => {
                                 meeting ? updateMeetingHandler : () => {}
                               }
                             >
-                              {meeting ? "Update User" : "Ssve Meeting"}
+                              {meeting ? "Update Meeting" : "Ssve Meeting"}
                             </div>
-                            <div className="btn cancel">Cancel</div>
+                            <Link to="/meetings" className="btn cancel">
+                              Cancel
+                            </Link>
                           </div>
                           <div className="col-lg-4 col-md-6 ">
                             <p>
