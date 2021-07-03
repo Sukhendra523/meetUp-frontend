@@ -7,15 +7,17 @@ export const getAllRoles = () => {
     try {
       const res = await axios.get("/roles");
       console.log("data", res.data);
+      const { roles, message } = res.data;
+
       if (res.status === 200) {
         dispatch({
           type: roleConstants.GET_ALL_ROLE_SUCCESS,
-          payload: { roles: res.data },
+          payload: { roles },
         });
       } else {
         dispatch({
           type: roleConstants.GET_ALL_ROLE_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {

@@ -6,15 +6,16 @@ export const getAllMeetings = () => {
     dispatch({ type: meetingConstants.GET_ALL_MEETING_REQUEST });
     try {
       const res = await axios.get("/meetings");
+      const { message, meetings } = res.data;
       if (res.status === 200) {
         dispatch({
           type: meetingConstants.GET_ALL_MEETING_SUCCESS,
-          payload: { meetings: res.data },
+          payload: { meetings },
         });
       } else {
         dispatch({
           type: meetingConstants.GET_ALL_MEETING_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {
@@ -29,15 +30,17 @@ export const updateMeeting = (meeting, id) => {
     try {
       const res = await axios.put(`/meeting/update/${id}`, meeting);
       console.log("data", res.data);
+      const { message } = res.data;
+
       if (res.status === 200) {
         dispatch({
           type: meetingConstants.UPDATE_MEETING_SUCCESS,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       } else {
         dispatch({
           type: meetingConstants.UPDATE_MEETING_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {
@@ -46,21 +49,23 @@ export const updateMeeting = (meeting, id) => {
   };
 };
 
-export const deleteUser = (id) => {
+export const deleteMeeting = (id) => {
   return async (dispatch) => {
     dispatch({ type: meetingConstants.DELETE_MEETING_REQUEST });
     try {
       const res = await axios.delete(`/meeting/delete/${id}`);
-      console.log("data delete", res.data);
+      console.log("data delete😁😁😁😀", res.data);
+      const { message } = res.data;
+
       if (res.status === 200) {
         dispatch({
           type: meetingConstants.DELETE_MEETING_SUCCESS,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       } else {
         dispatch({
           type: meetingConstants.DELETE_MEETING_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {

@@ -7,15 +7,16 @@ export const getAllUsers = () => {
     try {
       const res = await axios.get("/users");
       console.log("data", res.data);
+      const { message, users } = res.data;
       if (res.status === 200) {
         dispatch({
           type: userConstants.GET_ALL_USER_SUCCESS,
-          payload: { users: res.data },
+          payload: { users },
         });
       } else {
         dispatch({
           type: userConstants.GET_ALL_USER_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {
@@ -31,15 +32,17 @@ export const getUserDetails = (id) => {
     try {
       const res = await axios.get(`/user/getUserDetails/${id}`);
       console.log("data", res.data);
+      const { message, user } = res.data;
+
       if (res.status === 200) {
         dispatch({
           type: userConstants.GET_USER_DETAILS_SUCCESS,
-          payload: { user: res.data },
+          payload: { user },
         });
       } else {
         dispatch({
           type: userConstants.GET_USER_DETAILS_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {
@@ -54,15 +57,17 @@ export const updateUser = (user, id) => {
     try {
       const res = await axios.put(`/user/update/${id}`, user);
       console.log("data", res.data);
+      const { message } = res.data;
+
       if (res.status === 200) {
         dispatch({
           type: userConstants.UPDATE_USER_SUCCESS,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       } else {
         dispatch({
           type: userConstants.UPDATE_USER_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {
@@ -77,15 +82,17 @@ export const deleteUser = (id) => {
     try {
       const res = await axios.delete(`/user/delete/${id}`);
       console.log("data delete", res.data);
+      const { message } = res.data;
+
       if (res.status === 200) {
         dispatch({
           type: userConstants.DELETE_USER_SUCCESS,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       } else {
         dispatch({
           type: userConstants.DELETE_USER_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {
@@ -100,15 +107,17 @@ export const searchUsers = (query) => {
     try {
       const res = await axios.get(`/users/search/${query}`);
       console.log("data", res.data);
+      const { message, users } = res.data;
+
       if (res.status === 200) {
         dispatch({
           type: userConstants.SEARCH_USER_SUCCESS,
-          payload: { users: res.data },
+          payload: { users },
         });
       } else {
         dispatch({
           type: userConstants.SEARCH_USER_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {
@@ -124,15 +133,17 @@ export const updateProfile = (formData, id) => {
     try {
       const res = await axios.put(`/user/updateProfile/${id}`, formData);
       console.log("data", res.data);
+      const { message } = res.data;
+
       if (res.status === 200) {
         dispatch({
           type: userConstants.UPDATE_USER_SUCCESS,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       } else {
         dispatch({
           type: userConstants.UPDATE_USER_FAILURE,
-          payload: { message: res.data.message },
+          payload: { message },
         });
       }
     } catch (error) {

@@ -20,6 +20,10 @@ const UserList = () => {
   const [deleted, setDeleted] = useState(false);
   const access = permissions.includes(permissionConstants.WRITE_USER);
 
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, []);
+
   const { users } = useSelector((state) => state.user);
   const deleteUserHandler = (id) => {
     console.log(">>>>>>>>>>> id", id);

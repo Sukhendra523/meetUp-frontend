@@ -243,23 +243,34 @@ const MeetingsList = () => {
                           const start = meeting.schedule.start;
                           const end = meeting.schedule.end;
                           const date =
-                            new Date(start).getDate() +
+                            new Date(start).getFullYear() +
                             "-" +
-                            (new Date(start).getMonth() + 1) +
+                            (new Date(start).getMonth() + 1 >= 10
+                              ? new Date(start).getMonth() + 1
+                              : "0" + (new Date(start).getMonth() + 1)) +
                             "-" +
-                            new Date(start).getFullYear();
+                            (new Date(start).getDate() + 1 >= 10
+                              ? new Date(start).getDate() + 1
+                              : "0" + (new Date(start).getDate() + 1));
+
                           const timing = {
                             start:
-                              new Date(start).getHours() +
-                              1 +
+                              (new Date(start).getHours() >= 10
+                                ? new Date(start).getHours()
+                                : "0" + new Date(start).getHours()) +
                               ":" +
-                              (new Date(start).getMinutes() + 1),
+                              (new Date(start).getMinutes() >= 10
+                                ? new Date(start).getMinutes()
+                                : "0" + new Date(start).getMinutes()),
 
                             end:
-                              new Date(end).getHours() +
-                              1 +
+                              (new Date(end).getHours() >= 10
+                                ? new Date(end).getHours()
+                                : "0" + new Date(end).getHours()) +
                               ":" +
-                              (new Date(end).getMinutes() + 1),
+                              (new Date(end).getMinutes() >= 10
+                                ? new Date(end).getMinutes()
+                                : "0" + new Date(end).getMinutes()),
                           };
                           return (
                             <tr key={i}>

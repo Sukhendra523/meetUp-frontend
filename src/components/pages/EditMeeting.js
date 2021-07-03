@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, Redirect } from "react-router-dom";
+import Toast from "react-bootstrap/Toast";
 
-import {} from "../../actions";
+import { deleteMeeting, updateMeeting } from "../../actions";
 import Navbar from "../UI/Navbar";
 import img1 from "./Users/images/back-button.png";
 import img2 from "./Users/images/download.jpg";
@@ -37,9 +38,22 @@ const EditUser = () => {
 
   const timing = {
     start:
-      new Date(start).getHours() + 1 + ":" + (new Date(start).getMinutes() + 1),
+      (new Date(start).getHours() >= 10
+        ? new Date(start).getHours()
+        : "0" + new Date(start).getHours()) +
+      ":" +
+      (new Date(start).getMinutes() >= 10
+        ? new Date(start).getMinutes()
+        : "0" + new Date(start).getMinutes()),
 
-    end: new Date(end).getHours() + 1 + ":" + (new Date(end).getMinutes() + 1),
+    end:
+      (new Date(end).getHours() >= 10
+        ? new Date(end).getHours()
+        : "0" + new Date(end).getHours()) +
+      ":" +
+      (new Date(end).getMinutes() >= 10
+        ? new Date(end).getMinutes()
+        : "0" + new Date(end).getMinutes()),
   };
 
   const [title, setTitle] = useState(meeting ? meeting.title : "");
@@ -60,6 +74,7 @@ const EditUser = () => {
   );
   const [searchedEmails, setSearchedEmails] = useState([]);
   const [deleted, setDeleted] = useState(false);
+  const [updateShow, setUpdateShow] = useState(false);
   console.log("date", date + "T" + timingStart);
 
   const updateMeetingHandler = () => {
@@ -72,13 +87,16 @@ const EditUser = () => {
       attendees: attendees.map(({ _id }) => _id),
       description,
     };
-    // dispatch(updateMeeting(meeting, id));
+    dispatch(updateMeeting(meeting, id));
+    setUpdateShow(true);
   };
 
   const deleteMeetingHandler = () => {
-    // dispatch(deleteMeeting(id));
-    setDeleted(true);
+    console.log("😀😀😀......delete");
+    dispatch(deleteMeeting(id));
+    // setDeleted(true)
   };
+
   if (deleted) {
     return <Redirect to="/meetings" />;
   }
@@ -141,6 +159,39 @@ const EditUser = () => {
       <section>
         <div className="account-sec">
           <div className="account-card">
+            <div
+              aria-live="polite"
+              aria-atomic="true"
+              style={{
+                position: "relative",
+              }}
+            >
+              <Toast
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: "33%",
+                  background: "rgb(70 156 243)",
+                }}
+                onClose={() => setUpdateShow(false)}
+                show={updateShow}
+                delay={3000}
+                autohide
+              >
+                <Toast.Body>
+                  <div class="d-flex">
+                    <div class="toast-body">
+                      Meeting details Updated Successfully
+                    </div>
+                    <button
+                      type="button"
+                      class="btn-close btn-close-white me-2 m-auto"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                </Toast.Body>
+              </Toast>
+            </div>
             <div className="row g-0">
               {meeting && (
                 <div className="col-lg-3  col-md-3 col-sm-12 pb-3 ">
@@ -521,7 +572,7 @@ const EditUser = () => {
                           </div>
                         </div> */}
 
-                        <div className="mt-5 row footer-card ">
+                        <div className="mt-2 row footer-card ">
                           <div className="col-lg-8 col-md-6">
                             <div
                               className="btn update"

@@ -8,7 +8,7 @@ export const facebookLogin = (response) => {
       const { accessToken, userId } = response;
       const res = await axios.post("/facebookLogin", { accessToken, userId });
       console.log("user sigin successfilly", res);
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === 201) {
         const { token, user } = res.data;
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -50,7 +50,7 @@ export const login = (user) => {
           },
         });
       }
-      if (res.status === 400) {
+      if (res.status === 403) {
         const { error, message } = res.data;
         dispatch({
           type: authConstants.LOGIN_FAILURE,
@@ -60,7 +60,7 @@ export const login = (user) => {
     } catch (error) {
       dispatch({
         type: authConstants.LOGIN_FAILURE,
-        payload: { message: error.message },
+        payload: { error: error.message },
       });
     }
   };
@@ -75,7 +75,7 @@ export const signup = (user) => {
     try {
       const res = await axios.post(`/signup`, user);
 
-      if (res.status === 200) {
+      if (res.status === 201) {
         dispatch({
           type: userConstants.USER_REGISTER_SUCCESS,
         });
@@ -90,7 +90,7 @@ export const signup = (user) => {
           },
         });
       }
-      if (res.status === 400) {
+      if (res.status === 403) {
         const { error, message } = res.data;
         dispatch({
           type: authConstants.LOGIN_FAILURE,

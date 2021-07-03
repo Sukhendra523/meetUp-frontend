@@ -30,6 +30,44 @@ const meetingReducer = (state = initialState, action) => {
         message: payload.message,
       };
       break;
+    case meetingConstants.UPDATE_MEETING_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case meetingConstants.UPDATE_MEETING_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        message: payload.message,
+      };
+      break;
+    case meetingConstants.UPDATE_MEETING_FAILURE:
+      state = {
+        ...initialState,
+        message: payload.message,
+      };
+      break;
+    case meetingConstants.DELETE_MEETING_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case meetingConstants.DELETE_MEETING_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        message: payload.message,
+      };
+      break;
+    case meetingConstants.DELETE_MEETING_FAILURE:
+      state = {
+        ...initialState,
+        message: payload.message,
+      };
+      break;
     default:
       break;
   }
