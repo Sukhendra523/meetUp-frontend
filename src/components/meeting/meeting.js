@@ -6,7 +6,7 @@ import Chat from './chat';
 import $ from 'jquery';
 import Img from "./images/img (1).jpg";
 import io from 'socket.io-client';
-import { SOCKETURL } from './endpoint';
+import { SOCKETURL, JITSIURL } from './endpoint';
 
 
 let socket = "";
@@ -15,10 +15,10 @@ let meetingname = "thisismeetingname";
 /* global $, JitsiMeetJS (Global Variables)  */
 
 const options = {
-    serviceUrl: 'https://beta.meet.jit.si/http-bind',
+    serviceUrl: `https://${JITSIURL}/http-bind`,
     hosts: {
-        domain: 'beta.meet.jit.si',
-        muc: 'conference.beta.meet.jit.si'
+        domain: `${JITSIURL}`,
+        muc: `conference.${JITSIURL}`
     },
     resolution: 1080,
     maxFullResolutionParticipants: 2,
@@ -784,13 +784,14 @@ function Meeting(props) {
 
     return (
         <>
-            <div className="meeting-content-wrapper chat">
+            <div className="meeting-content-wrapper">
                 <div className="meeting-container meeting-content">
                     <div className="screen-container meeting-container">
                         <Screen
                             meetingname={meetingname}
                             userrole={userrole}
                             whiteboard={whiteboard}
+                            whiteboardHandler={whiteboardHandler}
                         />
                     </div>
                     <div className="bottom-toolbox-container meeting-container">

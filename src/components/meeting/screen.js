@@ -37,10 +37,11 @@ function Screen(props) {
     return (
         <>
             <div className="features-screen whiteboard-container">
-                <iframe src={`${SOCKETURL}?id=${props.meetingname}`}/> 
+                <p className="custom-btn bottom-right custom-btn-danger text-danger mb-0" onClick={() => props.whiteboardHandler(props.whiteboard)}>Close</p>
+                <iframe src={`${SOCKETURL}?id=${props.meetingname}`} />
                 {
-                    ((props.whiteboard && props.whiteboard.onlyAdmin === true) && (props.userrole && props.userrole !== "admin"))  && <div className="transparent-screen"></div>
-                } 
+                    ((props.whiteboard && props.whiteboard.onlyAdmin === true) && (props.userrole && props.userrole !== "admin")) && <div className="transparent-screen"></div>
+                }
             </div>
             <div className="user-meeting-wrapper">
                 {
