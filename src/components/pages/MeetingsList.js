@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { permissionConstants } from "../../constants";
 import Navbar from "../UI/Navbar";
@@ -10,7 +10,7 @@ import img5 from "./Users/images/duplicate.png";
 import img6 from "./Users/images/pencil.png";
 import img7 from "./Users/images/left-and-right-arrows.png";
 import img8 from "./Users/images/bin.png";
-import { getAllMeetings } from "../../actions";
+import { deleteMeeting, getAllMeetings, searchMeeting } from "../../actions";
 import { Link } from "react-router-dom";
 
 const MeetingsList = () => {
@@ -18,13 +18,30 @@ const MeetingsList = () => {
   const { permissions } = auth;
   const dispatch = useDispatch();
   const access = permissions.includes(permissionConstants.WRITE_MEETING);
+  const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
     dispatch(getAllMeetings());
   }, []);
   const { meetings, loading, message } = useSelector((state) => state.meeting);
   console.log("meeting :::::::>>>", meetings);
-  const search = () => {};
+  const search = (query, email) => {
+    if (query) {
+      dispatch(searchMeeting(query, email));
+    } else {
+      dispatch(getAllMeetings());
+    }
+  };
+
+  const deleteMeetingHandler = (id, createdBy) => {
+    dispatch(deleteMeeting(id, createdBy));
+    setDeleted(true);
+  };
+
+  if (deleted) {
+    dispatch(getAllMeetings());
+    setDeleted(false);
+  }
 
   return (
     <>
@@ -347,7 +364,12 @@ const MeetingsList = () => {
                                       <li>
                                         <p
                                           className="dropdown-item"
-                                          onClick={() => {}}
+                                          onClick={() =>
+                                            deleteMeetingHandler(
+                                              meeting._id,
+                                              meeting.createdBy
+                                            )
+                                          }
                                         >
                                           <img src={img8} alt="" />
                                           Remove

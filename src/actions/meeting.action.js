@@ -24,11 +24,14 @@ export const getAllMeetings = () => {
   };
 };
 
-export const updateMeeting = (meeting, id) => {
+export const updateMeeting = (meetingData, id, createdBy) => {
   return async (dispatch) => {
     dispatch({ type: meetingConstants.UPDATE_MEETING_REQUEST });
     try {
-      const res = await axios.put(`/meeting/update/${id}`, meeting);
+      const res = await axios.put(
+        `/meeting/update/${id}/${createdBy}`,
+        meetingData
+      );
       console.log("data", res.data);
       const { message } = res.data;
 
@@ -49,11 +52,11 @@ export const updateMeeting = (meeting, id) => {
   };
 };
 
-export const deleteMeeting = (id) => {
+export const deleteMeeting = (id, createdBy) => {
   return async (dispatch) => {
     dispatch({ type: meetingConstants.DELETE_MEETING_REQUEST });
     try {
-      const res = await axios.delete(`/meeting/delete/${id}`);
+      const res = await axios.delete(`/meeting/delete/${id}/${createdBy}`);
       console.log("data delete😁😁😁😀", res.data);
       const { message } = res.data;
 
@@ -74,21 +77,23 @@ export const deleteMeeting = (id) => {
   };
 };
 
-export const searchUsers = (query) => {
+export const createMeeting = (meetingData) => {
   return async (dispatch) => {
-    dispatch({ type: meetingConstants.SEARCH_MEETING_REQUEST });
+    dispatch({ type: meetingConstants.CREATE_MEETING_REQUEST });
     try {
-      const res = await axios.get(`/meetings/search/${query}`);
-      console.log("data", res.data);
-      if (res.status === 200) {
+      const res = await axios.post(`/meeting/create`, meetingData);
+      console.log("data create meeting", res.data);
+      const { message } = res.data;
+
+      if (res.status === 201) {
         dispatch({
-          type: meetingConstants.SEARCH_MEETING_SUCCESS,
-          payload: { meetings: res.data },
+          type: meetingConstants.CREATE_MEETING_SUCCESS,
+          payload: { message },
         });
       } else {
         dispatch({
-          type: meetingConstants.SEARCH_MEETING_FAILURE,
-          payload: { message: res.data.message },
+          type: meetingConstants.CREATE_MEETING_FAILURE,
+          payload: { message },
         });
       }
     } catch (error) {
@@ -97,22 +102,22 @@ export const searchUsers = (query) => {
   };
 };
 
-export const updateProfile = (formData, id) => {
-  console.log("formdata", formData);
+export const searchMeeting = (query, email) => {
   return async (dispatch) => {
-    dispatch({ type: meetingConstants.UPDATE_MEETING_REQUEST });
+    dispatch({ type: meetingConstants.SEARCH_MEETING_REQUEST });
     try {
-      const res = await axios.put(`/meeting/updateProfile/${id}`, formData);
+      const res = await axios.get(`/meeting/search/${query}/${email}`);
       console.log("data", res.data);
+      const { message, meetings } = res.data;
       if (res.status === 200) {
         dispatch({
-          type: meetingConstants.UPDATE_MEETING_SUCCESS,
-          payload: { message: res.data.message },
+          type: meetingConstants.SEARCH_MEETING_SUCCESS,
+          payload: { meetings },
         });
       } else {
         dispatch({
-          type: meetingConstants.UPDATE_MEETING_FAILURE,
-          payload: { message: res.data.message },
+          type: meetingConstants.SEARCH_MEETING_FAILURE,
+          payload: { message },
         });
       }
     } catch (error) {

@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, Redirect } from "react-router-dom";
 import Toast from "react-bootstrap/Toast";
 
-import { deleteMeeting, updateMeeting } from "../../actions";
+import {
+  createMeeting,
+  deleteMeeting,
+  getAllFeatures,
+  updateMeeting,
+} from "../../actions";
 import Navbar from "../UI/Navbar";
 import img1 from "./Users/images/back-button.png";
 import img2 from "./Users/images/download.jpg";
@@ -12,12 +17,14 @@ const EditUser = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getUserDetails(id));
-  // }, []);
+  useEffect(() => {
+    dispatch(getAllFeatures());
+  }, []);
 
+  const { user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
-  const { meetings, message, loading } = useSelector((state) => state.meeting);
+  const { meetings } = useSelector((state) => state.meeting);
+  const { features } = useSelector((state) => state.feature);
   const meeting = id && meetings.find(({ _id }) => _id === id);
 
   console.log("meeting", meeting);
@@ -32,9 +39,9 @@ const EditUser = () => {
       ? new Date(start).getMonth() + 1
       : "0" + (new Date(start).getMonth() + 1)) +
     "-" +
-    (new Date(start).getDate() + 1 >= 10
-      ? new Date(start).getDate() + 1
-      : "0" + (new Date(start).getDate() + 1));
+    (new Date(start).getDate() >= 10
+      ? new Date(start).getDate()
+      : "0" + new Date(start).getDate());
 
   const timing = {
     start:
@@ -68,17 +75,32 @@ const EditUser = () => {
         }))
       : []
   );
-
+  const [featureList, setFeatureList] = useState(
+    features.filter(({ enable }) => enable)
+  );
+  // features.map(({ key, privacy, settings, enable }) => {
+  //   if (enable) {
+  //     setFeatureList([...featureList, key]);
+  //     privacy?.map(({ key, enable }) => {
+  //       enable && setFeatureList([...featureList, key]);
+  //     });
+  //     settings?.map(({ key, enable }) => {
+  //       enable && setFeatureList([...featureList, key]);
+  //     });
+  //   }
+  // });
+  console.log("FeaturesList", featureList);
   const [description, setDescription] = useState(
     meeting ? meetings.description : ""
   );
   const [searchedEmails, setSearchedEmails] = useState([]);
   const [deleted, setDeleted] = useState(false);
-  const [updateShow, setUpdateShow] = useState(false);
+  const [show, setShow] = useState(false);
+  const [status, setStatus] = useState("");
   console.log("date", date + "T" + timingStart);
 
   const updateMeetingHandler = () => {
-    const meeting = {
+    const meetingData = {
       title,
       schedule: {
         start: date + "T" + timingStart,
@@ -87,28 +109,48 @@ const EditUser = () => {
       attendees: attendees.map(({ _id }) => _id),
       description,
     };
-    dispatch(updateMeeting(meeting, id));
-    setUpdateShow(true);
+    dispatch(updateMeeting(meetingData, id, meeting.createdBy));
+    setStatus("Meeting Updated Successfully");
+    setShow(true);
+  };
+
+  const createMeetingHandler = () => {
+    const meetingData = {
+      title,
+      roomName:
+        title.replace(" ", "-") + Math.random().toString(36).substring(7),
+      schedule: {
+        start: date + "T" + timingStart,
+        end: date + "T" + timingEnd,
+      },
+      attendees: attendees.map(({ _id }) => _id),
+      features: featureList,
+      description,
+      createdBy: user._id,
+    };
+    dispatch(createMeeting(meetingData));
+    setStatus("Meeting Created Successfully");
+    setShow(true);
   };
 
   const deleteMeetingHandler = () => {
-    console.log("😀😀😀......delete");
-    dispatch(deleteMeeting(id));
-    // setDeleted(true)
+    dispatch(deleteMeeting(id, meeting.createdBy));
+    setDeleted(true);
   };
 
   if (deleted) {
     return <Redirect to="/meetings" />;
   }
+
   const keyChangeHandler = (e) => {
     let newEnteredEmail = e.target.value;
 
     if (newEnteredEmail.includes(",")) {
       let newEmail = newEnteredEmail.replace(",", "");
       console.log(users);
-      const user = users.find(({ email }) => email === newEmail);
-      if (user) {
-        const { _id, email } = user;
+      const userData = users.find(({ email }) => email === newEmail);
+      if (userData) {
+        const { _id, email } = userData;
         setAttendees([...attendees, { _id, email }]);
         e.target.value = "";
       } else {
@@ -131,20 +173,6 @@ const EditUser = () => {
       setSearchedEmails([]);
     }
   };
-
-  // const searchUserEmails = (event) => {
-  //   console.log(event.target.value);
-  // };
-
-  // const updateUserProfile = (event) => {
-  //   console.log("event.target.files[0]", event.target.files[0]);
-
-  //   console.log("timing :::::&&&&&", timing);
-  //   const formData = new FormData();
-  //   formData.append("image", event.target.files[0]);
-  //   dispatch(updateProfile(formData, id));
-  //   setImage(URL.createObjectURL(event.target.files[0]));
-  // };
 
   return (
     <>
@@ -173,16 +201,14 @@ const EditUser = () => {
                   right: "33%",
                   background: "rgb(70 156 243)",
                 }}
-                onClose={() => setUpdateShow(false)}
-                show={updateShow}
+                onClose={() => setShow(false)}
+                show={show}
                 delay={3000}
                 autohide
               >
                 <Toast.Body>
                   <div class="d-flex">
-                    <div class="toast-body">
-                      Meeting details Updated Successfully
-                    </div>
+                    <div class="toast-body">{status}</div>
                     <button
                       type="button"
                       class="btn-close btn-close-white me-2 m-auto"
@@ -577,10 +603,12 @@ const EditUser = () => {
                             <div
                               className="btn update"
                               onClick={
-                                meeting ? updateMeetingHandler : () => {}
+                                meeting
+                                  ? updateMeetingHandler
+                                  : createMeetingHandler
                               }
                             >
-                              {meeting ? "Update Meeting" : "Ssve Meeting"}
+                              {meeting ? "Update Meeting" : "Save Meeting"}
                             </div>
                             <Link to="/meetings" className="btn cancel">
                               Cancel

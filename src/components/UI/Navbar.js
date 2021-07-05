@@ -78,7 +78,9 @@ const Navbar = (props) => {
                       type="text"
                       className="form-control"
                       placeholder={form.placeholder}
-                      onChange={(e) => form.search(e.target.value)}
+                      onChange={(e) =>
+                        form.search(e.target.value, auth.user.email)
+                      }
                     />
                   </div>
                 )}

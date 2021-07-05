@@ -30,6 +30,27 @@ const meetingReducer = (state = initialState, action) => {
         message: payload.message,
       };
       break;
+
+    case meetingConstants.SEARCH_MEETING_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case meetingConstants.SEARCH_MEETING_SUCCESS:
+      state = {
+        ...state,
+        meetings: payload.meetings,
+        loading: false,
+        message: "Get search success",
+      };
+      break;
+    case meetingConstants.SEARCH_MEETING_FAILURE:
+      state = {
+        ...initialState,
+        message: payload.message,
+      };
+      break;
     case meetingConstants.UPDATE_MEETING_REQUEST:
       state = {
         ...state,
@@ -44,6 +65,25 @@ const meetingReducer = (state = initialState, action) => {
       };
       break;
     case meetingConstants.UPDATE_MEETING_FAILURE:
+      state = {
+        ...initialState,
+        message: payload.message,
+      };
+      break;
+    case meetingConstants.CREATE_MEETING_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case meetingConstants.CREATE_MEETING_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        message: payload.message,
+      };
+      break;
+    case meetingConstants.CREATE_MEETING_FAILURE:
       state = {
         ...initialState,
         message: payload.message,
