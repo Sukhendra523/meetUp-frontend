@@ -47,8 +47,8 @@ const UserList = () => {
     <>
       <Navbar
         form={{
-          link: "user/create",
-          button: "Create user",
+          // link: "user/create",
+          // button: "Create user",
           search,
           placeholder: "Search User",
           access: access,

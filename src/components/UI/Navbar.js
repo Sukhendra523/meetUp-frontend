@@ -84,7 +84,7 @@ const Navbar = (props) => {
                     />
                   </div>
                 )}
-                {form.access && (
+                {form.access && form.button && (
                   <Link
                     to={form.link}
                     className="btn btn-primary p-2 ml-2 add-btn"
