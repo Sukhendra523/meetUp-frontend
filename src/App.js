@@ -14,6 +14,7 @@ import MeetingsList from "./components/pages/MeetingsList";
 import RoleList from "./components/pages/RoleList";
 import MeetingFeatures from "./components/pages/MeetingFeatures";
 import EditMeeting from "./components/pages/EditMeeting";
+import Prelaunch from "./components/meeting/prelaunch";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -37,7 +38,8 @@ function App() {
           <PrivateRoute path="/" exact component={MeetingsList} />
           <Route path="/login" component={Login} />
           <Route path="/Register" component={Register} />
-          <PrivateRoute path="/meetingRoom" component={Meeting} />
+          <Route path="/meetingRoom" component={Meeting} />
+          <PrivateRoute path="/prelaunch" component={Prelaunch} />
           <PrivateRoute path="/roles" component={RoleList} />
           <PrivateRoute path="/features" component={MeetingFeatures} />
           <PrivateRoute path="/users" component={UserList} />
