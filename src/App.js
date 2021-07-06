@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { getAllUsers, isUserLoggedIn } from "./actions";
+import { getAllFeatures, getAllUsers, isUserLoggedIn } from "./actions";
 import "./App.css";
 import PrivateRoute from "./components/HOC/PrivateRoute";
 import Meeting from "./components/meeting/meeting";
@@ -25,6 +25,7 @@ function App() {
     }
     if (auth.authenticated) {
       dispatch(getAllUsers());
+      dispatch(getAllFeatures());
     }
   }, [auth]);
 

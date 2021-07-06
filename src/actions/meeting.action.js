@@ -5,7 +5,7 @@ export const getAllMeetings = () => {
   return async (dispatch) => {
     dispatch({ type: meetingConstants.GET_ALL_MEETING_REQUEST });
     try {
-      const res = await axios.get("/meetings");
+      const res = await axios.post("/meetings");
       const { message, meetings } = res.data;
       if (res.status === 200) {
         dispatch({

@@ -23,6 +23,7 @@ const MeetingsList = () => {
   useEffect(() => {
     dispatch(getAllMeetings());
   }, []);
+
   const { meetings, loading, message } = useSelector((state) => state.meeting);
   console.log("meeting :::::::>>>", meetings);
   const search = (query, email) => {
@@ -367,7 +368,7 @@ const MeetingsList = () => {
                                           onClick={() =>
                                             deleteMeetingHandler(
                                               meeting._id,
-                                              meeting.createdBy
+                                              meeting.createdBy._id
                                             )
                                           }
                                         >

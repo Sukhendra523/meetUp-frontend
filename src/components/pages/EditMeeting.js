@@ -17,10 +17,6 @@ const EditUser = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllFeatures());
-  }, []);
-
   const { user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
   const { meetings } = useSelector((state) => state.meeting);
@@ -109,7 +105,7 @@ const EditUser = () => {
       attendees: attendees.map(({ _id }) => _id),
       description,
     };
-    dispatch(updateMeeting(meetingData, id, meeting.createdBy));
+    dispatch(updateMeeting(meetingData, id, meeting.createdBy._id));
     setStatus("Meeting Updated Successfully");
     setShow(true);
   };
@@ -134,7 +130,7 @@ const EditUser = () => {
   };
 
   const deleteMeetingHandler = () => {
-    dispatch(deleteMeeting(id, meeting.createdBy));
+    dispatch(deleteMeeting(id, meeting.createdBy._id));
     setDeleted(true);
   };
 
