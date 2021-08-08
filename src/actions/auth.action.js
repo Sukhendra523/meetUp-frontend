@@ -29,6 +29,33 @@ export const facebookLogin = (response) => {
   };
 };
 
+export const googleLogin = (idToken) => {
+  return async (dispatch) => {
+    dispatch({ type: authConstants.LOGIN_REQUEST });
+    try {
+      const res = await axios.post("/googleSignin", { idToken: idToken });
+      console.log("user sigin successfilly", res);
+      if (res.status === 200 || res.status === 201) {
+        const { token, user } = res.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        dispatch({
+          type: authConstants.LOGIN_SUCCESS,
+          payload: { token, user },
+        });
+      } else {
+        const { error, message } = res.data;
+        dispatch({
+          type: authConstants.LOGIN_FAILURE,
+          payload: { error, message },
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
 export const login = (user) => {
   console.log(user);
 

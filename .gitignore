@@ -12,6 +12,7 @@
 /build
 
 # misc
+*.env
 .zip
 .DS_Store
 .env.local
@@ -22,3 +23,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# Large media files
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
+*.zip

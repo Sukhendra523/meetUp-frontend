@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-
+import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { useDispatch, useSelector } from "react-redux";
-import { facebookLogin, login } from "../../../actions";
+import { facebookLogin, googleLogin, login } from "../../../actions";
 import Input from "../../UI/Input";
 import LoginWithButton from "../../UI/LoginWithButton";
 
@@ -17,6 +17,10 @@ function Login() {
 
   const userfacebookLogin = (response) => {
     dispatch(facebookLogin(response));
+  };
+
+  const userGoogleLogin = (response) => {
+    dispatch(googleLogin(response.tokenId));
   };
 
   const userLogin = (event) => {
@@ -114,9 +118,21 @@ function Login() {
                       </LoginWithButton>
 
                       <LoginWithButton site="G" icon="fa-google">
-                        <button type="button" className="btn google">
-                          Login with Google
-                        </button>
+                        <GoogleLogin
+                          clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
+                          onSuccess={userGoogleLogin}
+                          onFailure={userGoogleLogin}
+                          cookiePolicy={"single_host_origin"}
+                          render={(renderProps) => (
+                            <button
+                              onClick={renderProps.onClick}
+                              disabled={renderProps.disabled}
+                              className="btn google"
+                            >
+                              Login with Google
+                            </button>
+                          )}
+                        ></GoogleLogin>
                       </LoginWithButton>
                     </div>
                   </div>
